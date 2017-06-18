@@ -1,0 +1,32 @@
+# Evidence API docs
+
+## Instructions
+
+Provides an http descriptor for uploading to S3 using a pre-signed request.
+
+### Contract
+
+- Endpoint: ``/instructions``
+- Method: ``GET``
+
+### Example
+
+Request:
+
+```
+GET /instructions HTTP/1.1
+```
+
+Response:
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "instructions": {
+    "url": "https://s3.a_region.amazonaws.com/a_bucket/test.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=an_access_key_id%2F20170618%2Fa_region%2Fs3%2Faws4_request&X-Amz-Date=20170618T105131Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=58a85acf1be5dfc674230a7f2065c5d64f6f4601a7af4faa769e2a52956a35b6",
+    "method": "PUT"
+  }
+}
+```

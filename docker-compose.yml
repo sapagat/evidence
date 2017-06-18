@@ -1,0 +1,15 @@
+version: '2'
+services:
+  app:
+    build: .
+    ports:
+      - 7000:80
+    volumes:
+      - bundle:/usr/local/bundle
+      - '.:/app'
+    command:
+      bash -c "bundle install --jobs 3 && bundle exec rake development:up"
+
+volumes:
+  bundle:
+    driver: local
