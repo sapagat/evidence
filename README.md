@@ -37,3 +37,26 @@ S3_SECRET_ACCESS_KEY='<secret-access-key>'
 Suites available:
 
 - ``end2end``: Checks that the service API provides the capabilities expected by its consumers.
+
+## Production
+
+### Environment variables
+
+The following environment variables must be set:
+
+```
+S3_BUCKET='<bucket-name>'
+S3_REGION='<region>'
+S3_ACCESS_KEY_ID='<access-key-id>'
+S3_SECRET_ACCESS_KEY='<secret-access-key>'
+```
+
+### Procfile
+
+Use a ``Procfile``, a text file in the root directory of your application, to explicitly declare what command should be executed to start your app.
+
+An example app you deployed looks like this:
+
+```
+web: bundle exec rackup config.ru -p $PORT
+```
