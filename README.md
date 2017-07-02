@@ -45,6 +45,7 @@ Suites available:
 The following environment variables must be set:
 
 ```
+RACK_ENV=production
 S3_BUCKET='<bucket-name>'
 S3_REGION='<region>'
 S3_ACCESS_KEY_ID='<access-key-id>'
