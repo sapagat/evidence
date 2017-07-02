@@ -1,9 +1,9 @@
-require_relative '../controllers/instructions'
+require_relative '../controllers/evidence'
 
 module Infrastructure
   Dispatcher = Rack::Builder.app do
-    map '/instructions' do
-      run InstructionsController
+    map '/' do
+      run EvidenceController
     end
 
     map '//' do

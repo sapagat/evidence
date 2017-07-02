@@ -1,11 +1,14 @@
 require 'securerandom'
+require_relative 'attempts/repository'
 
 module Attempts
   class Service
     class << self
       def create
         id = generate_id
-        { 'id' => id }
+        attempt = { 'id' => id }
+        Repository::store(attempt)
+        attempt
       end
 
       private

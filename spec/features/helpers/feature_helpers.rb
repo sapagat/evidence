@@ -15,6 +15,14 @@ module FeatureHelpers
     200
   end
 
+  def error_status
+    422
+  end
+
+  def message(payload)
+    JSON.dump(payload)
+  end
+
   def last_parsed_response
     JSON.parse(last_response.body)
   end

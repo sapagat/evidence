@@ -31,3 +31,34 @@ Content-Type: application/json
   }
 }
 ```
+
+
+## Resolve
+
+Resolves the evidence upload and consumes the attempt.
+
+### Contract
+
+- Endpoint: ``/resolve``
+- Method: ``POST``
+- Requires an attempt id.
+
+### Example
+
+Request:
+
+```
+POST /resolve HTTP/1.1
+Content-Type: application/json
+
+{
+  "attempt_id": "4d6ac229-0def-4a88-882d-66914c3d1e6d"
+}
+```
+
+Response:
+
+```
+HTTP/1.1 200 OK
+```
+

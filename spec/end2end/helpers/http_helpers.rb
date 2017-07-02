@@ -10,6 +10,15 @@ module HttpHelpers
     @last_response = Net::HTTP.get_response(uri)
   end
 
+  def post(endpoint, message)
+    uri = build_uri(endpoint)
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.request_uri, 'Content-Type' => 'application/json')
+    request.body = JSON.dump(message)
+
+    @last_response = http.request(request)
+  end
+
   def build_uri(endpoint)
     URI.parse(BASE_URL + endpoint)
   end
