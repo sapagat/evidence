@@ -1,12 +1,12 @@
 require 'sinatra/base'
 require 'json'
-require_relative '../services/instructions'
+require_relative '../actions/provide_instructions'
 
 class InstructionsController < Sinatra::Base
   get '/' do
-    instructions = Instructions::Service.retrieve
+    message = ProvideInstructions.do
 
-    answer_with({'instructions' => instructions})
+    answer_with(message)
   end
 
   private

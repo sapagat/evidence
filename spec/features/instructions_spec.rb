@@ -1,3 +1,4 @@
+require_relative '../spec_helper'
 require_relative 'helpers/feature_helpers'
 require_relative '../../infrastructure/s3'
 require 'uri'
@@ -31,6 +32,12 @@ describe 'Instructions' do
     instructions = last_parsed_response['instructions']
     expect_to_be_an_s3_presigned_url(instructions['url'])
     expect(instructions['method']).to eq('PUT')
+  end
+
+  it 'identifies the upload attempt' do
+    get('/instructions')
+
+    expect(last_parsed_response['attempt_id']).to be_a_uuid
   end
 
   def expect_to_be_an_s3_presigned_url(url)

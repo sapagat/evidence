@@ -10,6 +10,9 @@ clean:
 test:
 	docker-compose exec app bundle exec rake test:all
 
+test-services:
+	docker-compose exec app bundle exec rake test:services
+
 test-features:
 	docker-compose exec app bundle exec rake test:features
 
