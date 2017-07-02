@@ -21,11 +21,19 @@ You can read about the service capabilities [here](DOCS.md)
 - Stop services: ``make-down``
 - Clean up: ``make-clean``
 
+
 ## Test
 
 Suites available:
 
 - ``end2end``: Checks that the service API provides the capabilities expected by its consumers.
+- ``features``: Checks the behaviour its endpoint using test specific configuration and stubs.
+
+Any of the avobe mentioned test suites can be executed by running:
+
+```
+make test-<suite-name>
+```
 
 ## Production
 
