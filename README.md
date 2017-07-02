@@ -13,17 +13,6 @@ You can read about the service capabilities [here](DOCS.md)
 - Docker https://docs.docker.com/compose/install/
 - Makefile
 
-### Configuration
-
-You must set the following environment variables in a ``.env`` file:
-
-```
-S3_BUCKET='<bucket-name>'
-S3_REGION='<region>'
-S3_ACCESS_KEY_ID='<access-key-id>'
-S3_SECRET_ACCESS_KEY='<secret-access-key>'
-```
-
 ### Commands
 
 - Boot up development server on http://localhost:7000: ``make up``

@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'sinatra', '~> 2.0.0'
 gem 'aws-sdk', '~> 2.4.0'
-gem 'dotenv', '~> 2.2.1'
 
 group :development do
   gem 'rerun', '~> 0.11.0'
