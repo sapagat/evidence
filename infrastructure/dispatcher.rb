@@ -1,9 +1,14 @@
 require_relative '../controllers/evidence'
+require_relative '../health/server'
 
 module Infrastructure
   Dispatcher = Rack::Builder.app do
     map '/' do
       run EvidenceController
+    end
+
+    map '/health' do
+      run Health::Server.new
     end
 
     map '//' do

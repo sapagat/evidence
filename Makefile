@@ -16,6 +16,9 @@ test-services:
 test-features:
 	docker-compose exec app bundle exec rake test:features
 
+test-health:
+	docker-compose exec app bundle exec rake test:health
+
 test-end2end:
 	docker-compose exec app bundle exec rake test:end2end
 
