@@ -1,5 +1,8 @@
 # Evidence [WIP]
 
+
+
+
 Evidence is a service that provides HTTP descriptors for making pre-signed requests and keep track of uploads in progress.
 
 ## Docs
@@ -24,7 +27,7 @@ You can read about the service capabilities [here](DOCS.md)
 
 ## Test
 
-Suites available:
+### Suites available
 
 - ``end2end``: Checks that the service API provides the capabilities expected by its consumers.
 - ``features``: Checks the behaviour its endpoint using test specific configuration and stubs.
@@ -35,6 +38,10 @@ Any of the avobe mentioned test suites can be executed by running:
 ```
 make test-<suite-name>
 ```
+
+### CI
+
+This project is integrated with Travis CI: https://travis-ci.org/sapagat/evidence
 
 ## Production
 
