@@ -6,15 +6,15 @@ module Fixtures
       end
 
       def region
-        'test-region'
+        'a_region'
       end
 
       def access_key_id
-        'test-access-key-id'
+        'an_access_key_id'
       end
 
       def secret_access_key
-        'test-secret-access-key'
+        'a_secret_access_key'
       end
     end
   end

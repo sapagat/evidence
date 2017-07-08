@@ -13,6 +13,9 @@ test:
 test-services:
 	docker-compose exec app bundle exec rake test:services
 
+test-integration:
+	docker-compose exec app bundle exec rake test:integration
+
 test-features:
 	docker-compose exec app bundle exec rake test:features
 

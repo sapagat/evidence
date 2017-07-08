@@ -9,11 +9,15 @@ services:
     volumes:
       - bundle:/usr/local/bundle
       - '.:/app'
-    environment:
-      - S3_BUCKET=a-bucket
-      - S3_REGION=a_region
-      - S3_ACCESS_KEY_ID=an_access_key_id
-      - S3_SECRET_ACCESS_KEY=a_secret_access_key
+    depends_on:
+      - s3
+
+  s3:
+    extends:
+      file: docker-compose.base.yml
+      service: s3
+    ports:
+      - 9000:9000
 
 volumes:
   bundle:

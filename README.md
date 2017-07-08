@@ -33,6 +33,7 @@ You can read about the service capabilities [here](DOCS.md)
 - ``features``: Checks the behaviour its endpoint using test specific configuration and stubs.
 - ``services``: Checks with unit tests that the beaviour of the service is the expected.
 - ``health``: Checks the behaviour of the health check endpoint.
+- ``integration``
 
 Any of the avobe mentioned test suites can be executed by running:
 

@@ -5,5 +5,9 @@ module Attempts
     def self.flush
       @@attempts = {}
     end
+
+    def self.exists?(id)
+      !@@attempts[id].nil?
+    end
   end
 end
