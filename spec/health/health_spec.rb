@@ -2,7 +2,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 
-describe 'Evidence' do
+RSpec.describe 'Evidence' do
   it 'needs the service to be up' do
     get('/health')
 

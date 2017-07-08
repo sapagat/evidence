@@ -5,12 +5,7 @@ task :test => 'test:all'
 
 namespace :test do
   desc 'Run all tests'
-  task all: [:services, :features, :health, :integration, :end2end]
-
-  desc 'Run services tests'
-  RSpec::Core::RakeTask.new :services do |test, args|
-    test.pattern = Dir['./spec/services/**/*_spec.rb']
-  end
+  task all: [:features, :health, :integration, :end2end]
 
   desc 'Run features tests'
   RSpec::Core::RakeTask.new :features do |test, args|

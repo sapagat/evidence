@@ -1,7 +1,7 @@
-require_relative '../spec_helper'
+require_relative 'spec_helper'
 require_relative '../../src/service/attempts'
 
-describe 'Attempts service' do
+RSpec.describe 'Attempts service' do
   after do
     flush_attempts
   end

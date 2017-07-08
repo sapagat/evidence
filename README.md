@@ -31,7 +31,6 @@ You can read about the service capabilities [here](DOCS.md)
 
 - ``end2end``: Checks that the service API provides the capabilities expected by its consumers.
 - ``features``: Checks the behaviour its endpoint using test specific configuration and stubs.
-- ``services``: Checks with unit tests that the beaviour of the service is the expected.
 - ``health``: Checks the behaviour of the health check endpoint.
 - ``integration``
 

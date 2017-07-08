@@ -1,6 +1,5 @@
 require_relative 'spec_helper'
 require_relative '../../src/service/warehouse'
-require_relative '../../config/initializers/s3'
 
 RSpec.describe 'Warehouse' do
   describe 'instructions_for' do
