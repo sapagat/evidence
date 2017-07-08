@@ -6,7 +6,7 @@ namespace :development do
 
   task :configure do
     require_relative '../config/initializers/s3'
-    require_relative '../services/s3_client'
+    require_relative '../src/service/warehouse'
 
     S3Client.create_bucket
   end
