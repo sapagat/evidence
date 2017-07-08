@@ -19,10 +19,10 @@ You can read about the service capabilities [here](DOCS.md)
 ### Commands
 
 - Boot up development server on http://localhost:7000: ``make up``
-- Run tests: ``make-test``
-- Show logs: ``make-logs``
-- Stop services: ``make-down``
-- Clean up: ``make-clean``
+- Run tests: ``make test``
+- Show logs: ``make logs``
+- Stop services: ``make down``
+- Clean up: ``make clean``
 
 
 ## Test
