@@ -1,5 +1,5 @@
 require_relative 'spec_helper'
-require_relative '../../services/warehouse'
+require_relative '../../src/service/warehouse'
 require_relative '../../config/initializers/s3'
 
 RSpec.describe 'Warehouse' do
@@ -53,7 +53,6 @@ RSpec.describe 'Warehouse' do
 end
 
 require_relative '../../config/initializers/s3'
-require_relative '../../services/s3_client'
 class S3TestClient < S3Client
   class << self
     def store(key, content)

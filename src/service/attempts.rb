@@ -1,4 +1,21 @@
+require 'securerandom'
+
 module Attempts
+  class << self
+    def create
+      id = generate_id
+      attempt = { 'id' => id }
+      Repository::store(attempt)
+      attempt
+    end
+
+    private
+
+    def generate_id
+      SecureRandom.uuid
+    end
+  end
+
   class Repository
     class << self
       @@attempts = {}

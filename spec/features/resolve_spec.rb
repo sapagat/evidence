@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 require_relative 'helpers/attempts_helpers'
-require_relative '../../services/s3_client'
+require_relative '../../src/service/warehouse'
 
 
 RSpec.describe 'Resolve' do

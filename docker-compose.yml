@@ -4,8 +4,6 @@ services:
     extends:
       file: docker-compose.base.yml
       service: app
-    ports:
-      - 7000:80
     volumes:
       - bundle:/usr/local/bundle
       - '.:/app'
@@ -16,8 +14,6 @@ services:
     extends:
       file: docker-compose.base.yml
       service: s3
-    ports:
-      - 9000:9000
 
 volumes:
   bundle:

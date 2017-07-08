@@ -1,5 +1,5 @@
 require_relative '../spec_helper'
-require_relative '../../services/attempts'
+require_relative '../../src/service/attempts'
 
 describe 'Attempts service' do
   after do
@@ -8,20 +8,20 @@ describe 'Attempts service' do
 
   describe 'create' do
     it 'provides an attempt' do
-      attempt = Attempts::Service.create
+      attempt = Attempts.create
 
       expect(attempt['id']).to be_a_uuid
     end
 
     it 'generates a new attempt each time' do
-      first_attempt = Attempts::Service.create
-      second_attempt = Attempts::Service.create
+      first_attempt = Attempts.create
+      second_attempt = Attempts.create
 
       expect(first_attempt['id']).not_to eq(second_attempt['id'])
     end
 
     it 'stores the attempt' do
-      attempt = Attempts::Service.create
+      attempt = Attempts.create
 
       stored_attempt = Attempts::TestRepository.find(attempt['id'])
       expect(stored_attempt).to eq(attempt)

@@ -1,5 +1,29 @@
-require_relative '../infrastructure/s3'
+require_relative '../../infrastructure/s3'
 require 'uri'
+
+class Warehouse
+  class << self
+    def instructions_for(filename)
+      client.build_instructions(filename)
+    end
+
+    def exists?(filename)
+      client.exists?(filename)
+    end
+
+    private
+
+    def client
+      return @client if @client
+
+      build_client
+    end
+
+    def build_client
+      @client = S3Client
+    end
+  end
+end
 
 class S3Client
   class << self

@@ -44,13 +44,13 @@ describe 'Evidence' do
   end
 
   def flush_bucket
-    require_relative '../../services/warehouse'
     S3TestClient.flush_bucket
   end
 end
 
 require_relative '../../config/initializers/s3'
-require_relative '../../services/s3_client'
+require_relative '../../src/service/warehouse'
+
 class S3TestClient < S3Client
   class << self
     def flush_bucket

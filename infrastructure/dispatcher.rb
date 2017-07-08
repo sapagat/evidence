@@ -1,4 +1,4 @@
-require_relative '../controllers/evidence'
+require_relative '../src/controller'
 require_relative '../health/server'
 
 module Infrastructure
