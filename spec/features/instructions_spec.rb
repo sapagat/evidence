@@ -4,7 +4,7 @@ require_relative '../../src/service/warehouse'
 
 RSpec.describe 'Instructions' do
   it 'provides an s3 http descriptor for uploading an evidence' do
-    get('/instructions')
+    post('/provide_instructions', message({}))
 
     expect(last_response.status).to eq(status_ok)
     instructions = last_parsed_response['instructions']
@@ -12,7 +12,7 @@ RSpec.describe 'Instructions' do
   end
 
   it 'identifies the upload attempt' do
-    get('/instructions')
+    post('/provide_instructions', message({}))
 
     expect(last_parsed_response['attempt_id']).to be_a_uuid
   end

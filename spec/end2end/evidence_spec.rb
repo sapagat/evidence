@@ -20,7 +20,7 @@ describe 'Evidence' do
   end
 
   def ask_for_instructions
-    get '/instructions'
+    post '/provide_instructions', {}
     expect_last_response_to_be_ok
 
     @attempt_id = last_parsed_response['attempt_id']
@@ -28,7 +28,7 @@ describe 'Evidence' do
   end
 
   def resolve_upload
-    post '/resolve', { 'attempt_id' => @attempt_id }
+    post '/resolve_attempt', { 'attempt_id' => @attempt_id }
 
     expect_last_response_to_be_ok
   end

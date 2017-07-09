@@ -1,20 +1,23 @@
 # Evidence API docs
 
-## Instructions
+## Obtain instructions
 
 Provides an http descriptor for uploading to S3 using a pre-signed request. In addion it provides an ``attempt_id`` that identifies the upload.
 
 ### Contract
 
-- Endpoint: ``/instructions``
-- Method: ``GET``
+- Endpoint: ``/provide_instructions``
+- Method: ``POST``
 
 ### Example
 
 Request:
 
 ```
-GET /instructions HTTP/1.1
+POST /provide_instructions HTTP/1.1
+Content-Type: application/json
+
+{}
 ```
 
 Response:
@@ -33,13 +36,13 @@ Content-Type: application/json
 ```
 
 
-## Resolve
+## Resolve attempt
 
 Resolves the evidence upload and consumes the attempt.
 
 ### Contract
 
-- Endpoint: ``/resolve``
+- Endpoint: ``/resolve_attempt``
 - Method: ``POST``
 - Requires an attempt id.
 

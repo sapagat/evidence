@@ -5,13 +5,13 @@ require_relative 'service'
 class EvidenceController < Sinatra::Base
   disable :show_exceptions
 
-  get '/instructions' do
+  post '/provide_instructions' do
     message = Evidence::Service.instructions
 
     answer_with(message)
   end
 
-  post '/resolve' do
+  post '/resolve_attempt' do
     attempt_id = question['attempt_id']
 
     Evidence::Service.resolve_attempt(attempt_id)

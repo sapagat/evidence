@@ -7,7 +7,7 @@ RSpec.describe 'Resolve' do
     Stubs::S3Client.say_exists
     store_attempt({'id' => '1234'})
 
-    post '/resolve', message({ 'attempt_id' => '1234'})
+    post '/resolve_attempt', message({ 'attempt_id' => '1234'})
 
     expect(last_response.status).to eq(status_ok)
   end
@@ -17,7 +17,7 @@ RSpec.describe 'Resolve' do
       Stubs::S3Client.say_does_not_exists
       store_attempt({'id' => '1234'})
 
-      post '/resolve', message({ 'attempt_id' => '1234'})
+      post '/resolve_attempt', message({ 'attempt_id' => '1234'})
 
       expect(last_response.status).to eq(error_status)
       expect(Attempts::TestRepository.exists?('1234')).to eq(false)
@@ -26,7 +26,7 @@ RSpec.describe 'Resolve' do
 
   context 'when the attempt is not valid' do
     it 'responds with an error status' do
-      post '/resolve', message({ 'attempt_id' => invalid_attempt_id})
+      post '/resolve_attempt', message({ 'attempt_id' => invalid_attempt_id})
 
       expect(last_response.status).to eq(error_status)
     end
