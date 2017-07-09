@@ -29,16 +29,43 @@ You can read about the service capabilities [here](DOCS.md)
 
 ### Suites available
 
-- ``end2end``: Checks that the service API provides the capabilities expected by its consumers.
-- ``features``: Checks the behaviour its endpoint using test specific configuration and stubs.
-- ``health``: Checks the behaviour of the health check endpoint.
+- ``end2end``
+- ``features``
 - ``integration``
+- ``health``
 
-Any of the avobe mentioned test suites can be executed by running:
+Any of the above mentioned test suites can be executed by running:
 
 ```
 make test-<suite-name>
 ```
+
+#### end2end
+
+This suite checks that the service HTTP API provides the capabilities expected by its consumers.
+
+It is an out of process test, i.e, it execises the service as a deployed artifact. To achieve this it uses stubbed external services.
+
+*For example it uses ``minio`` as an ``s3`` stub.*
+
+#### features
+
+This suite checks the behaviour of each endpoint. It relies on the app booted in *test mode*, this way more variabilty can be introduced and errors and exceptions can be tested in a faster and controlled manner.
+
+It is an in process test, i.e, endpoints are excesided directly (not via HTTP) and external services are consumed via stubbed clients.
+
+*For example, it uses a stubbed s3 client.*
+
+#### integration
+
+This suite checks that the gateways behaviour is the expected. To achieve this it consumes the stubbed external service.
+
+*For example, when testing ``Warehouse::Gateway`` consumes ``minio`` in order to check that it can retrieve pre-signed request instructions.*
+
+#### health
+
+This suite checks that the health endpoint behaviour is the expected.
+
 
 ### CI
 
@@ -52,10 +79,10 @@ The following environment variables must be set:
 
 ```
 RACK_ENV=production
-S3_BUCKET='<bucket-name>'
-S3_REGION='<region>'
-S3_ACCESS_KEY_ID='<access-key-id>'
-S3_SECRET_ACCESS_KEY='<secret-access-key>'
+S3_BUCKET=<bucket-name>
+S3_REGION=<region>
+S3_ACCESS_KEY_ID=<access-key-id>
+S3_SECRET_ACCESS_KEY=<secret-access-key>
 ```
 
 ### Procfile
