@@ -1,5 +1,6 @@
 require_relative 'spec_helper'
 require_relative '../../src/service/warehouse'
+require_relative 'helpers/warehouse_helpers'
 
 RSpec.describe 'Warehouse' do
   describe 'instructions_for' do
@@ -32,7 +33,7 @@ RSpec.describe 'Warehouse' do
     end
 
     it 'knows when a file is stored' do
-      S3TestClient.store(filename, 'Any content')
+      store_evidence(filename, 'Any content')
 
       expect(Warehouse.exists?(filename)).to eq(true)
     end
@@ -41,27 +42,16 @@ RSpec.describe 'Warehouse' do
       expect(Warehouse.exists?(filename)).to eq(false)
     end
 
+    def store_evidence(filename, content)
+      Warehouse::S3TestClient.store(filename, 'Any content')
+    end
+
     def flush_bucket
-      S3TestClient.flush_bucket
+      Warehouse::S3TestClient.flush_bucket
     end
   end
 
   def filename
     'a_filename.txt'
-  end
-end
-
-require_relative '../../config/initializers/s3'
-class S3TestClient < S3Client
-  class << self
-    def store(key, content)
-      resource.bucket(bucket).object(key).put(body: content)
-    end
-
-    def flush_bucket
-      resource.bucket(bucket).objects.each do |object|
-        object.delete
-      end
-    end
   end
 end

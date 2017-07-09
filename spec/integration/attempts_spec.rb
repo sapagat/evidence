@@ -1,5 +1,6 @@
 require_relative 'spec_helper'
 require_relative '../../src/service/attempts'
+require_relative 'helpers/attempts_helpers'
 
 RSpec.describe 'Attempts service' do
   after do
@@ -30,13 +31,5 @@ RSpec.describe 'Attempts service' do
 
   def flush_attempts
     Attempts::TestRepository.flush
-  end
-end
-
-module Attempts
-  class TestRepository < Repository
-    def self.flush
-      @@attempts = {}
-    end
   end
 end

@@ -1,5 +1,6 @@
 require_relative 'spec_helper'
 require_relative 'helpers/http_helpers'
+require_relative 'helpers/warehouse_helpers'
 require 'json'
 
 describe 'Evidence' do
@@ -12,7 +13,6 @@ describe 'Evidence' do
     ask_for_instructions
 
     upload_an_evidence
-    expect_last_response_to_be_ok
 
     resolve_upload
 
@@ -21,12 +21,16 @@ describe 'Evidence' do
 
   def ask_for_instructions
     get '/instructions'
+    expect_last_response_to_be_ok
+
     @attempt_id = last_parsed_response['attempt_id']
     @instructions = last_parsed_response['instructions']
   end
 
   def resolve_upload
     post '/resolve', { 'attempt_id' => @attempt_id }
+
+    expect_last_response_to_be_ok
   end
 
   def expect_last_response_to_be_ok
@@ -41,22 +45,10 @@ describe 'Evidence' do
     request.body = 'Some random file content'
 
     @last_response = http.request(request)
+    expect_last_response_to_be_ok
   end
 
   def flush_bucket
-    S3TestClient.flush_bucket
-  end
-end
-
-require_relative '../../config/initializers/s3'
-require_relative '../../src/service/warehouse'
-
-class S3TestClient < S3Client
-  class << self
-    def flush_bucket
-      resource.bucket(bucket).objects.each do |object|
-        object.delete
-      end
-    end
+    Warehouse::S3TestClient.flush_bucket
   end
 end

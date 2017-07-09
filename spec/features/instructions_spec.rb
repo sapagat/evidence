@@ -4,7 +4,7 @@ require_relative '../../src/service/warehouse'
 
 RSpec.describe 'Instructions' do
   it 'provides an s3 http descriptor for uploading an evidence' do
-    allow(S3Client).to receive(:build_instructions).and_return({
+    allow(Warehouse::S3Client).to receive(:build_instructions).and_return({
       'url' => 'an_url',
       'method' => 'PUT'
     })

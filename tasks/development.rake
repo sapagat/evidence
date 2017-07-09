@@ -8,6 +8,6 @@ namespace :development do
     require_relative '../config/initializers/s3'
     require_relative '../src/service/warehouse'
 
-    S3Client.create_bucket
+    Warehouse::S3Client.create_bucket
   end
 end

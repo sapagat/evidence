@@ -5,7 +5,7 @@ require_relative '../../src/service/warehouse'
 
 RSpec.describe 'Resolve' do
   it 'resolves when the attempt is valid' do
-    allow(S3Client).to receive(:exists?).and_return(true)
+    allow(Warehouse::S3Client).to receive(:exists?).and_return(true)
     store_attempt({'id' => '1234'})
 
     post '/resolve', message({ 'attempt_id' => '1234'})
@@ -15,7 +15,7 @@ RSpec.describe 'Resolve' do
 
   context 'when the file is not stored in warehouse' do
     it 'responds with an error status' do
-      allow(S3Client).to receive(:exists?).and_return(false)
+      allow(Warehouse::S3Client).to receive(:exists?).and_return(false)
       store_attempt({'id' => '1234'})
 
       post '/resolve', message({ 'attempt_id' => '1234'})
