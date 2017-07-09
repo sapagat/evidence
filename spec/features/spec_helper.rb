@@ -13,13 +13,8 @@ RSpec.configure do |config|
 
   config.include FeatureHelpers
 
-  config.before(:suite) do
-    Infrastructure::S3.configure do |config|
-      config.region = 'test-region'
-      config.bucket = 'test-bucket'
-      config.access_key_id = 'test-acces-key-id'
-      config.secret_access_key = 'test-secret-access-key'
-    end
+  config.before(:each) do
+    require_relative 'config/boot.rb'
   end
 
   config.after(:example) do

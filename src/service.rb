@@ -10,7 +10,7 @@ module Evidence
     class << self
       def instructions
         attempt = Attempts.create
-        instructions = Warehouse.instructions_for(FILENAME)
+        instructions = Warehouse::Gateway.instructions_for(FILENAME)
         {
           'attempt_id' => attempt['id'],
           'instructions' => instructions
@@ -23,7 +23,7 @@ module Evidence
         raise InvalidAttempt if attempt.nil?
         Attempts::Repository.destroy(attempt_id)
 
-        raise InvalidAttempt unless Warehouse.exists?(FILENAME)
+        raise InvalidAttempt unless Warehouse::Gateway.exists?(FILENAME)
       end
     end
   end

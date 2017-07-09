@@ -1,26 +1,27 @@
 require_relative '../../infrastructure/s3'
+require_relative '../../config/configurable'
 require 'uri'
 
 module Warehouse
-  class << self
-    def instructions_for(filename)
-      client.build_instructions(filename)
-    end
+  class Gateway
+    include Configurable
 
-    def exists?(filename)
-      client.exists?(filename)
-    end
+    configure_with :client
 
-    private
+    class << self
+      def instructions_for(filename)
+        client.build_instructions(filename)
+      end
 
-    def client
-      return @client if @client
+      def exists?(filename)
+        client.exists?(filename)
+      end
 
-      build_client
-    end
+      private
 
-    def build_client
-      @client = S3Client
+      def client
+        configuration.client
+      end
     end
   end
 

@@ -3,9 +3,15 @@ require_relative '../../src/service/warehouse'
 require_relative 'helpers/warehouse_helpers'
 
 RSpec.describe 'Warehouse' do
+  before do
+    Warehouse::Gateway.configure do |config|
+      config.client = Warehouse::S3Client
+    end
+  end
+
   describe 'instructions_for' do
     it 'provides pre-signed request instructions' do
-      instructions = Warehouse.instructions_for(filename)
+      instructions = Warehouse::Gateway.instructions_for(filename)
 
       expect_to_be_an_s3_presigned_url(instructions['url'])
     end
@@ -35,11 +41,11 @@ RSpec.describe 'Warehouse' do
     it 'knows when a file is stored' do
       store_evidence(filename, 'Any content')
 
-      expect(Warehouse.exists?(filename)).to eq(true)
+      expect(Warehouse::Gateway.exists?(filename)).to eq(true)
     end
 
     it 'knows when a file is not stored' do
-      expect(Warehouse.exists?(filename)).to eq(false)
+      expect(Warehouse::Gateway.exists?(filename)).to eq(false)
     end
 
     def store_evidence(filename, content)
