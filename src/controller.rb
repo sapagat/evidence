@@ -6,7 +6,9 @@ class EvidenceController < Sinatra::Base
   disable :show_exceptions
 
   post '/provide_instructions' do
-    message = Evidence::Service.instructions
+    key = question['key']
+
+    message = Evidence::Service.instructions(key)
 
     answer_with(message)
   end
@@ -14,9 +16,9 @@ class EvidenceController < Sinatra::Base
   post '/resolve_attempt' do
     attempt_id = question['attempt_id']
 
-    Evidence::Service.resolve_attempt(attempt_id)
+    message = Evidence::Service.resolve_attempt(attempt_id)
 
-    answer_with({})
+    answer_with(message)
   end
 
   error Evidence::InvalidAttempt do

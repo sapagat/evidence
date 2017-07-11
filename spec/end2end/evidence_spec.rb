@@ -20,8 +20,9 @@ describe 'Evidence' do
   end
 
   def ask_for_instructions
-    post '/provide_instructions', {}
+    post '/provide_instructions', { key: evidence_key }
     expect_last_response_to_be_ok
+    expect(last_parsed_response['key']).to eq(evidence_key)
 
     @attempt_id = last_parsed_response['attempt_id']
     @instructions = last_parsed_response['instructions']
@@ -31,6 +32,7 @@ describe 'Evidence' do
     post '/resolve_attempt', { 'attempt_id' => @attempt_id }
 
     expect_last_response_to_be_ok
+    expect(last_parsed_response['key']).to eq(evidence_key)
   end
 
   def expect_last_response_to_be_ok
@@ -46,6 +48,10 @@ describe 'Evidence' do
 
     @last_response = http.request(request)
     expect_last_response_to_be_ok
+  end
+
+  def evidence_key
+    'reports.pdf'
   end
 
   def flush_bucket

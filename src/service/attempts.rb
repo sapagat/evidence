@@ -2,9 +2,9 @@ require 'securerandom'
 
 module Attempts
   class << self
-    def create
+    def create(key)
       id = generate_id
-      attempt = { 'id' => id }
+      attempt = { 'id' => id, 'key' => key }
       Repository::store(attempt)
       attempt
     end

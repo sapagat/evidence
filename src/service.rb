@@ -8,11 +8,12 @@ module Evidence
     FILENAME = 'test.txt'
 
     class << self
-      def instructions
-        attempt = Attempts.create
-        instructions = Warehouse::Gateway.instructions_for(FILENAME)
+      def instructions(key)
+        attempt = Attempts.create(key)
+        instructions = Warehouse::Gateway.instructions_for(key)
         {
           'attempt_id' => attempt['id'],
+          'key' => key,
           'instructions' => instructions
         }
       end
@@ -23,7 +24,11 @@ module Evidence
         raise InvalidAttempt if attempt.nil?
         Attempts::Repository.destroy(attempt_id)
 
-        raise InvalidAttempt unless Warehouse::Gateway.exists?(FILENAME)
+        raise InvalidAttempt unless Warehouse::Gateway.exists?(attempt['key'])
+
+        {
+          key: attempt['key']
+        }
       end
     end
   end
