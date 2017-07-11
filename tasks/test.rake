@@ -15,6 +15,7 @@ namespace :test do
   desc 'Run health test'
   RSpec::Core::RakeTask.new :health do |test, args|
     test.pattern = Dir['./spec/health/**/*_spec.rb']
+    test.rspec_opts = args.extras.map { |tag| "--tag #{tag}" }
   end
 
   desc 'Run integration tests'
@@ -34,7 +35,7 @@ namespace :test do
     begin
       Timeout.timeout(TIMEBOX) do
         loop do
-          ready = system('bundle exec rake test:health', out: File::NULL, err: File::NULL)
+          ready = system('bundle exec rake test:health[watchdog]', out: File::NULL, err: File::NULL)
 
           if ready
             puts 'READY!'

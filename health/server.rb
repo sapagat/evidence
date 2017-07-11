@@ -1,4 +1,5 @@
 require 'json'
+require_relative 's3_doctor'
 
 module Health
   class Server
@@ -9,7 +10,11 @@ module Health
     private
 
     def response
-      JSON.dump({ 'status' => 'ok'})
+      JSON.dump({
+        'dependencies' => {
+          's3' => S3Doctor.check
+        }
+      })
     end
   end
 end
