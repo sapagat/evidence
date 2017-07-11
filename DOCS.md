@@ -8,6 +8,7 @@ Provides an http descriptor for uploading to S3 using a pre-signed request. In a
 
 - Endpoint: ``/provide_instructions``
 - Method: ``POST``
+- Requires a evidence ``key`` to be specified.
 
 ### Example
 
@@ -41,13 +42,13 @@ Content-Type: application/json
 
 ## Resolve attempt
 
-Resolves the evidence upload and consumes the attempt.
+Resolves the evidence upload by checking it is stored in S3 and consumes the attempt.
 
 ### Contract
 
 - Endpoint: ``/resolve_attempt``
 - Method: ``POST``
-- Requires an attempt id.
+- Requires an ``attempt_id``.
 
 ### Example
 

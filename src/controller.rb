@@ -7,6 +7,7 @@ class EvidenceController < Sinatra::Base
 
   post '/provide_instructions' do
     key = question['key']
+    halt 422 if key.nil?
 
     message = Evidence::Service.instructions(key)
 

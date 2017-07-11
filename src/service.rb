@@ -5,8 +5,6 @@ module Evidence
   class InvalidAttempt < StandardError; end
 
   class Service
-    FILENAME = 'test.txt'
-
     class << self
       def instructions(key)
         attempt = Attempts.create(key)
