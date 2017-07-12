@@ -6,11 +6,11 @@ module Stubs
     }
 
     class << self
-      def build_instructions(filename)
+      def build_instructions(key)
         INSTRUCTIONS
       end
 
-      def exists?(filename)
+      def exists?(key)
         @exists
       end
 

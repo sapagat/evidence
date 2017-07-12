@@ -9,12 +9,12 @@ module Warehouse
     configure_with :client
 
     class << self
-      def instructions_for(filename)
-        client.build_instructions(filename)
+      def instructions_for(key)
+        client.build_instructions(key)
       end
 
-      def exists?(filename)
-        client.exists?(filename)
+      def exists?(key)
+        client.exists?(key)
       end
 
       private
@@ -27,8 +27,8 @@ module Warehouse
 
   class S3Client
     class << self
-      def build_instructions(filename)
-        object = resource.bucket(bucket).object(filename)
+      def build_instructions(key)
+        object = resource.bucket(bucket).object(key)
         url = object.presigned_url(:put)
         {
           'url' => url,
@@ -36,8 +36,8 @@ module Warehouse
         }
       end
 
-      def exists?(filename)
-         resource.bucket(bucket).object(filename).exists?
+      def exists?(key)
+         resource.bucket(bucket).object(key).exists?
       end
 
       def create_bucket

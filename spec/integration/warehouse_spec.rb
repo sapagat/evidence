@@ -11,7 +11,7 @@ RSpec.describe 'Warehouse' do
 
   describe 'instructions_for' do
     it 'provides pre-signed request instructions' do
-      instructions = Warehouse::Gateway.instructions_for(filename)
+      instructions = Warehouse::Gateway.instructions_for(key)
 
       expect_to_be_an_s3_presigned_url(instructions['url'])
     end
@@ -28,7 +28,7 @@ RSpec.describe 'Warehouse' do
         'X-Amz-Expires',
         'X-Amz-SignedHeaders',
         'X-Amz-Signature',
-        filename
+        key
       )
     end
   end
@@ -39,17 +39,17 @@ RSpec.describe 'Warehouse' do
     end
 
     it 'knows when a file is stored' do
-      store_evidence(filename, 'Any content')
+      store_evidence(key, 'Any content')
 
-      expect(Warehouse::Gateway.exists?(filename)).to eq(true)
+      expect(Warehouse::Gateway.exists?(key)).to eq(true)
     end
 
     it 'knows when a file is not stored' do
-      expect(Warehouse::Gateway.exists?(filename)).to eq(false)
+      expect(Warehouse::Gateway.exists?(key)).to eq(false)
     end
 
-    def store_evidence(filename, content)
-      Warehouse::S3TestClient.store(filename, 'Any content')
+    def store_evidence(key, content)
+      Warehouse::S3TestClient.store(key, 'Any content')
     end
 
     def flush_bucket
@@ -57,7 +57,7 @@ RSpec.describe 'Warehouse' do
     end
   end
 
-  def filename
+  def key
     'a_filename.txt'
   end
 end
