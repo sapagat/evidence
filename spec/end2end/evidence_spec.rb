@@ -15,24 +15,22 @@ describe 'Evidence' do
     upload_an_evidence
 
     resolve_upload
-
-    expect_last_response_to_be_ok
   end
 
   def ask_for_instructions
     post '/provide_instructions', { 'key' => evidence_key, 'auth_token' => ENV['AUTH_TOKEN'] }
     expect_last_response_to_be_ok
-    expect(last_parsed_response['key']).to eq(evidence_key)
+    expect(last_status).to eq('ok')
 
-    @attempt_id = last_parsed_response['attempt_id']
-    @instructions = last_parsed_response['instructions']
+    @attempt_id = last_data['attempt_id']
+    @instructions = last_data['instructions']
   end
 
   def resolve_upload
     post '/resolve_attempt', { 'attempt_id' => @attempt_id, 'auth_token' => ENV['AUTH_TOKEN'] }
 
     expect_last_response_to_be_ok
-    expect(last_parsed_response['key']).to eq(evidence_key)
+    expect(last_status).to eq('ok')
   end
 
   def expect_last_response_to_be_ok

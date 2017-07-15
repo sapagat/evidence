@@ -23,6 +23,14 @@ module HttpHelpers
     URI.parse(BASE_URL + endpoint)
   end
 
+  def last_status
+    last_parsed_response['status']
+  end
+
+  def last_data
+    last_parsed_response['data']
+  end
+
   def last_response
     @last_response
   end

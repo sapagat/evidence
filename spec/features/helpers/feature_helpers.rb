@@ -15,12 +15,16 @@ module FeatureHelpers
     200
   end
 
-  def error_status
-    422
+  def last_status
+    last_parsed_response['status']
   end
 
-  def unauthorized
-    401
+  def last_data
+    last_parsed_response['data']
+  end
+
+  def last_error
+    last_parsed_response['error']
   end
 
   def auth_message(payload)

@@ -7,9 +7,9 @@ RSpec.describe 'Instructions' do
     key = a_key
     post('/provide_instructions', auth_message({ 'key' => key}))
 
-    expect(last_response.status).to eq(status_ok)
-    expect(last_parsed_response['key']).to eq(key)
-    instructions = last_parsed_response['instructions']
+    expect(last_status).to eq('ok')
+    expect(last_data['key']).to eq(key)
+    instructions = last_data['instructions']
     expect_to_be_upload_instructions(instructions)
   end
 
@@ -18,14 +18,15 @@ RSpec.describe 'Instructions' do
 
     post('/provide_instructions', auth_message({ 'key' => key }))
 
-    expect(last_parsed_response['attempt_id']).to be_a_uuid
+    expect(last_data['attempt_id']).to be_a_uuid
   end
 
   context 'when the key is not specified' do
     it 'responds with an error status' do
       post('/provide_instructions', auth_message({}))
 
-      expect(last_response.status).to eq(error_status)
+      expect(last_status).to eq('error')
+      expect(last_error).to eq('invalid_key')
     end
   end
 
@@ -33,7 +34,8 @@ RSpec.describe 'Instructions' do
     it 'responds with an unauthorized error' do
       post('/provide_instructions', message({'key' => 'any_key'}))
 
-      expect(last_response.status).to eq(unauthorized)
+      expect(last_status).to eq('error')
+      expect(last_error).to eq('unauthorized')
     end
   end
 

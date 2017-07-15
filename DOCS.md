@@ -4,20 +4,33 @@
 
 Evidence service uses a pre-shared token authentication check. This shared key is specified by the environment variable ``AUTH_TOKEN``.
 
-The HTTP request's body has to include ``auth_token`` parameter and must match with the ``AUTH_TOKEN`` environment variable.
-If the token is invilaid the service will respond with a ``401`` response.
+The HTTP request's message has to include ``auth_token`` and must match with the ``AUTH_TOKEN`` environment variable.
 
-## Obtain instructions
+This error is returned when the provided ``auth_token`` is not valid.
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "status": "error",
+    "error": "unauthorized"
+}
+```
+
+## Endpoints
+
+### Obtain instructions
 
 Provides an http descriptor for uploading to S3 using a pre-signed request. In addion it provides an ``attempt_id`` that identifies the upload.
 
-### Contract
+#### Contract
 
 - Endpoint: ``/provide_instructions``
 - Method: ``POST``
 - Requires a evidence ``key`` to be specified as well as the ``auth_token``.
 
-### Example
+#### Example
 
 Request:
 
@@ -38,27 +51,45 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
-    "attempt_id": "4d6ac229-0def-4a88-882d-66914c3d1e6d",
-    "key": "/year/reports.pdf",
-    "instructions": {
-        "url": "https://s3.a_region.amazonaws.com/a_bucket/test.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=an_access_key_id%2F20170618%2Fa_region%2Fs3%2Faws4_request&X-Amz-Date=20170618T105131Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=58a85acf1be5dfc674230a7f2065c5d64f6f4601a7af4faa769e2a52956a35b6",
-        "method": "PUT"
+    "status": "ok",
+    "data": {
+        "attempt_id": "4d6ac229-0def-4a88-882d-66914c3d1e6d",
+        "key": "/year/reports.pdf",
+        "instructions": {
+            "url": "https://s3.a_region.amazonaws.com/a_bucket/test.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=an_access_key_id%2F20170618%2Fa_region%2Fs3%2Faws4_request&X-Amz-Date=20170618T105131Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=58a85acf1be5dfc674230a7f2065c5d64f6f4601a7af4faa769e2a52956a35b6",
+            "method": "PUT"
+    }
   }
 }
 ```
 
 
-## Resolve attempt
+#### Invalid key error
+
+This error is returned when the specified ``key`` is not valid. For example, if the key is not specified.
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "status": "error",
+    "error": "invalid_key"
+}
+```
+
+
+### Resolve attempt
 
 Resolves the evidence upload by checking it is stored in S3 and consumes the attempt.
 
-### Contract
+#### Contract
 
 - Endpoint: ``/resolve_attempt``
 - Method: ``POST``
 - Requires an ``attempt_id`` as well as the ``auth_token``.
 
-### Example
+#### Example
 
 Request:
 
@@ -78,7 +109,26 @@ Response:
 HTTP/1.1 200 OK
 
 {
-    "key": "/year/reports.pdf"
+    "status": "ok",
+    "data":{
+        "key": "/year/reports.pdf"
+    }
 }
 ```
+
+
+#### Invalid attempt error
+
+This error is returned when the the ``attempt_id`` provided is not valid.
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "status": "error",
+    "error": "invalid_attempt"
+}
+```
+
 
