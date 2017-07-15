@@ -19,6 +19,11 @@ module HttpHelpers
     @last_response = http.request(request)
   end
 
+  def auth_message(message)
+    message['auth_token'] = ENV['AUTH_TOKEN']
+    message
+  end
+
   def build_uri(endpoint)
     URI.parse(BASE_URL + endpoint)
   end

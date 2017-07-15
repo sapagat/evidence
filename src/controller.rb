@@ -3,6 +3,7 @@ require 'json'
 require_relative 'service'
 require_relative 'actions/provide_instructions'
 require_relative 'actions/resolve_attempt'
+require_relative 'domain/auth_token'
 
 class EvidenceController < Sinatra::Base
   disable :show_exceptions
@@ -33,7 +34,7 @@ class EvidenceController < Sinatra::Base
     reply Answer.invalid_attempt
   end
 
-  error Unauthorized do
+  error AuthToken::InvalidToken do
     reply Answer.unauthorized
   end
 
@@ -60,7 +61,7 @@ class EvidenceController < Sinatra::Base
     end
 
     def auth_token
-      @question['auth_token']
+      AuthToken.new(@question['auth_token'])
     end
 
     def attempt_id
