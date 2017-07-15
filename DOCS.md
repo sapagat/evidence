@@ -1,5 +1,12 @@
 # Evidence API docs
 
+## Authentication
+
+Evidence service uses a pre-shared token authentication check. This shared key is specified by the environment variable ``AUTH_TOKEN``.
+
+The HTTP request's body has to include ``auth_token`` parameter and must match with the ``AUTH_TOKEN`` environment variable.
+If the token is invilaid the service will respond with a ``401`` response.
+
 ## Obtain instructions
 
 Provides an http descriptor for uploading to S3 using a pre-signed request. In addion it provides an ``attempt_id`` that identifies the upload.
@@ -8,7 +15,7 @@ Provides an http descriptor for uploading to S3 using a pre-signed request. In a
 
 - Endpoint: ``/provide_instructions``
 - Method: ``POST``
-- Requires a evidence ``key`` to be specified.
+- Requires a evidence ``key`` to be specified as well as the ``auth_token``.
 
 ### Example
 
@@ -19,6 +26,7 @@ POST /provide_instructions HTTP/1.1
 Content-Type: application/json
 
 {
+    "auth_token": "de00fcdd-4731-441b-b872-4f1a5d811fe8",
     "key": "/year/reports.pdf"
 }
 ```
@@ -48,7 +56,7 @@ Resolves the evidence upload by checking it is stored in S3 and consumes the att
 
 - Endpoint: ``/resolve_attempt``
 - Method: ``POST``
-- Requires an ``attempt_id``.
+- Requires an ``attempt_id`` as well as the ``auth_token``.
 
 ### Example
 
@@ -59,7 +67,8 @@ POST /resolve HTTP/1.1
 Content-Type: application/json
 
 {
-  "attempt_id": "4d6ac229-0def-4a88-882d-66914c3d1e6d"
+    "auth_token": "de00fcdd-4731-441b-b872-4f1a5d811fe8",
+    "attempt_id": "4d6ac229-0def-4a88-882d-66914c3d1e6d"
 }
 ```
 

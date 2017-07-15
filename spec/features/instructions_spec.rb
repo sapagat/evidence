@@ -5,7 +5,7 @@ require_relative '../../src/service/warehouse'
 RSpec.describe 'Instructions' do
   it 'provides an s3 http descriptor for uploading an evidence' do
     key = a_key
-    post('/provide_instructions', message({ 'key' => key}))
+    post('/provide_instructions', auth_message({ 'key' => key}))
 
     expect(last_response.status).to eq(status_ok)
     expect(last_parsed_response['key']).to eq(key)
@@ -16,16 +16,24 @@ RSpec.describe 'Instructions' do
   it 'identifies the upload attempt' do
     key = a_key
 
-    post('/provide_instructions', message({ 'key' => key }))
+    post('/provide_instructions', auth_message({ 'key' => key }))
 
     expect(last_parsed_response['attempt_id']).to be_a_uuid
   end
 
   context 'when the key is not specified' do
     it 'responds with an error status' do
-      post('/provide_instructions', message({}))
+      post('/provide_instructions', auth_message({}))
 
       expect(last_response.status).to eq(error_status)
+    end
+  end
+
+  context 'when not authorized' do
+    it 'responds with an unauthorized error' do
+      post('/provide_instructions', message({'key' => 'any_key'}))
+
+      expect(last_response.status).to eq(unauthorized)
     end
   end
 

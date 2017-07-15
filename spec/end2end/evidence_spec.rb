@@ -20,7 +20,7 @@ describe 'Evidence' do
   end
 
   def ask_for_instructions
-    post '/provide_instructions', { key: evidence_key }
+    post '/provide_instructions', { 'key' => evidence_key, 'auth_token' => ENV['AUTH_TOKEN'] }
     expect_last_response_to_be_ok
     expect(last_parsed_response['key']).to eq(evidence_key)
 
@@ -29,7 +29,7 @@ describe 'Evidence' do
   end
 
   def resolve_upload
-    post '/resolve_attempt', { 'attempt_id' => @attempt_id }
+    post '/resolve_attempt', { 'attempt_id' => @attempt_id, 'auth_token' => ENV['AUTH_TOKEN'] }
 
     expect_last_response_to_be_ok
     expect(last_parsed_response['key']).to eq(evidence_key)

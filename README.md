@@ -79,6 +79,9 @@ The following environment variables must be set:
 
 ```
 RACK_ENV=production
+
+AUTH_TOKEN=<shared-key>
+
 S3_BUCKET=<bucket-name>
 S3_REGION=<region>
 S3_ACCESS_KEY_ID=<access-key-id>
