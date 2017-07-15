@@ -1,6 +1,8 @@
 require 'sinatra/base'
 require 'json'
 require_relative 'service'
+require_relative 'actions/provide_instructions'
+require_relative 'actions/resolve_attempt'
 
 class EvidenceController < Sinatra::Base
   disable :show_exceptions
@@ -11,22 +13,18 @@ class EvidenceController < Sinatra::Base
 
   post '/provide_instructions' do
     auth_token = @question.auth_token
-    return unauthorized if auth_token != ENV['AUTH_TOKEN']
-
     key = @question.key
-    return invalid_key if key.nil?
 
-    message = Evidence::Service.instructions(key)
+    message = ProvideInstructions.do(auth_token, key)
 
     answer_with(message)
   end
 
   post '/resolve_attempt' do
     auth_token = @question.auth_token
-    return unauthorized if auth_token != ENV['AUTH_TOKEN']
-
     attempt_id = @question.attempt_id
-    message = Evidence::Service.resolve_attempt(attempt_id)
+
+    message = ResolveAttempt.do(auth_token, attempt_id)
 
     answer_with(message)
   end
@@ -35,19 +33,15 @@ class EvidenceController < Sinatra::Base
     reply Answer.invalid_attempt
   end
 
-  private
-
-  def unauthorized
+  error Unauthorized do
     reply Answer.unauthorized
   end
 
-  def invalid_attempt
-    reply Answer.invalid_attempt
-  end
-
-  def invalid_key
+  error ProvideInstructions::InvalidKey do
     reply Answer.invalid_key
   end
+
+  private
 
   def answer_with(message)
     reply Answer.successful(message)
