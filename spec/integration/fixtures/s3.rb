@@ -6,7 +6,7 @@ module Fixtures
       end
 
       def region
-        'a_region'
+        'us-east-1'
       end
 
       def access_key_id

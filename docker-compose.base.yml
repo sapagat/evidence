@@ -5,7 +5,7 @@ services:
     environment:
       - AUTH_TOKEN=123456789
       - S3_BUCKET=a-bucket
-      - S3_REGION=a_region
+      - S3_REGION=us-east-1
       - S3_ACCESS_KEY_ID=an_access_key_id
       - S3_SECRET_ACCESS_KEY=a_secret_access_key
       - S3_ENDPOINT=http://s3:9000
