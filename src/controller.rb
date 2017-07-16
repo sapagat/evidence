@@ -1,6 +1,5 @@
 require 'sinatra/base'
 require 'json'
-require_relative 'service'
 require_relative 'actions/provide_instructions'
 require_relative 'actions/resolve_attempt'
 require_relative 'domain/auth_token'
@@ -16,18 +15,22 @@ class EvidenceController < Sinatra::Base
     auth_token = @question.auth_token
     key = @question.key
 
-    message = ProvideInstructions.do(auth_token, key)
+    result = ProvideInstructions.do(auth_token, key)
 
-    answer_with(message)
+    answer_with({
+      'key' => key,
+      'attempt_id' => result['attempt_id'],
+      'instructions' => result['instructions']
+    })
   end
 
   post '/resolve_attempt' do
     auth_token = @question.auth_token
     attempt_id = @question.attempt_id
 
-    message = ResolveAttempt.do(auth_token, attempt_id)
+    key = ResolveAttempt.do(auth_token, attempt_id)
 
-    answer_with(message)
+    answer_with({ 'key' => key })
   end
 
   error Evidence::InvalidAttempt do
