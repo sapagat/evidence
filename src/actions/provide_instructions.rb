@@ -4,15 +4,28 @@ class ProvideInstructions
   class InvalidKey < StandardError; end
 
   class << self
-    def do(auth_token, key)
-      auth_token.validate!
+    def do(key)
+      instructions = obtain_instructions_for(key)
+      ticket = register_attempt(key, instructions)
+      {
+        'ticket' => ticket,
+        'instructions' => instructions
+      }
+    end
 
-      raise InvalidKey if key.nil?
+    private
 
-      instructions = Evidence::Service.instructions(key)
+    def obtain_instructions_for(key)
+      instructions = Warehouse::Service.instructions_for(key)
+
+      raise InvalidKey if instructions.nil?
 
       instructions
     end
+
+    def register_attempt(key, instructions)
+      ticket = Attempts::Service.register_attempt(key, instructions)
+      ticket
+    end
   end
 end
-

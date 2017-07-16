@@ -1,33 +1,35 @@
 require_relative 'service/warehouse'
 require_relative 'service/attempts'
+require_relative 'domain/attempt'
 
-module Evidence
-  class InvalidAttempt < StandardError; end
-
+module Attempts
   class Service
-    class << self
-      def instructions(key)
-        attempt = Attempts.create(key)
-        instructions = Warehouse::Gateway.instructions_for(key)
-        {
-          'attempt_id' => attempt['id'],
-          'key' => key,
-          'instructions' => instructions
-        }
-      end
+    def self.register_attempt(key, instructions)
+      payload = {
+        'key' => key,
+        'instructions' => instructions
+      }
+      attempt = Repository.register(payload)
+      attempt.ticket
+    end
 
-      def resolve_attempt(attempt_id)
-        attempt = Attempts::Repository.find(attempt_id)
+    def self.exchange(ticket)
+      attempt = Attempts::Repository.exchange(ticket)
+      attempt.serialize
+    end
+  end
+end
 
-        raise InvalidAttempt if attempt.nil?
-        Attempts::Repository.destroy(attempt_id)
+module Warehouse
+  class Service
+    def self.instructions_for(key)
+      return if key.nil?
 
-        raise InvalidAttempt unless Warehouse::Gateway.exists?(attempt['key'])
+      Gateway.instructions_for(key)
+    end
 
-        {
-          key: attempt['key']
-        }
-      end
+    def self.stored?(key)
+      Gateway.exists?(key)
     end
   end
 end

@@ -1,36 +1,38 @@
-require 'securerandom'
-
 module Attempts
-  class << self
-    def create(key)
-      id = generate_id
-      attempt = { 'id' => id, 'key' => key }
-      Repository::store(attempt)
-      attempt
-    end
-
-    private
-
-    def generate_id
-      SecureRandom.uuid
-    end
-  end
-
   class Repository
     class << self
       @@attempts = {}
 
-      def store(attempt)
-        @@attempts[attempt['id']] = attempt
+      def register(payload)
+        attempt = Attempt.for(payload)
+
+        @@attempts[attempt.ticket] = payload
+
+        attempt
+      end
+
+      def exchange(ticket)
+        return NullAttempt.new unless exists?(ticket)
+
+        payload = find(ticket)
+        destroy(ticket)
+        Attempt.new(ticket, payload)
+      end
+
+      private
+
+      def destroy(id)
+       @@attempts.delete(id)
       end
 
       def find(id)
         @@attempts[id]
       end
 
-      def destroy(id)
-       @@attempts.delete(id)
+      def exists?(ticket)
+        !@@attempts[ticket].nil?
       end
+
     end
   end
 end
