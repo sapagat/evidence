@@ -9,40 +9,41 @@ class EvidenceController < Sinatra::Base
 
   before do
     @question = Question.new(request)
+    @question.auth_token.validate!
   end
 
   post '/provide_instructions' do
-    auth_token = @question.auth_token
     key = @question.key
 
-    result = ProvideInstructions.do(auth_token, key)
+    begin
+      attempt = ProvideInstructions.do(key)
 
-    answer_with({
-      'key' => key,
-      'attempt_id' => result['attempt_id'],
-      'instructions' => result['instructions']
-    })
+      answer_with({
+        'key' => key,
+        'attempt_id' => attempt['ticket'],
+        'instructions' => attempt['instructions']
+      })
+
+    rescue ProvideInstructions::InvalidKey
+      reply Answer.invalid_key
+    end
   end
 
   post '/resolve_attempt' do
-    auth_token = @question.auth_token
-    attempt_id = @question.attempt_id
+    ticket = @question.attempt_id
 
-    key = ResolveAttempt.do(auth_token, attempt_id)
+    begin
+      key = ResolveAttempt.do(ticket)
 
-    answer_with({ 'key' => key })
-  end
+      answer_with({ 'key' => key })
 
-  error Evidence::InvalidAttempt do
-    reply Answer.invalid_attempt
+    rescue ResolveAttempt::EvidenceNotStored, ResolveAttempt::InvalidAttempt
+      reply Answer.invalid_attempt
+    end
   end
 
   error AuthToken::InvalidToken do
     reply Answer.unauthorized
-  end
-
-  error ProvideInstructions::InvalidKey do
-    reply Answer.invalid_key
   end
 
   private

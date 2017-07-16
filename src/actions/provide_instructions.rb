@@ -4,28 +4,28 @@ class ProvideInstructions
   class InvalidKey < StandardError; end
 
   class << self
-    def do(auth_token, key)
-      auth_token.validate!
-
-      attempt = create_attempt(key)
+    def do(key)
       instructions = obtain_instructions_for(key)
+      ticket = register_attempt(key, instructions)
       {
-        'attempt_id' => attempt['id'],
+        'ticket' => ticket,
         'instructions' => instructions
       }
     end
 
     private
 
-    def create_attempt(key)
-      raise InvalidKey if key.nil?
+    def obtain_instructions_for(key)
+      instructions = Warehouse::Service.instructions_for(key)
 
-      attempt = Attempts.create(key)
+      raise InvalidKey if instructions.nil?
+
+      instructions
     end
 
-    def obtain_instructions_for(key)
-      Warehouse::Gateway.instructions_for(key)
+    def register_attempt(key, instructions)
+      ticket = Attempts::Service.register_attempt(key, instructions)
+      ticket
     end
   end
 end
-

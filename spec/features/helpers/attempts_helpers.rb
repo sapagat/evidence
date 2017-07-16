@@ -6,6 +6,10 @@ module Attempts
       @@attempts = {}
     end
 
+    def self.store(attempt)
+      @@attempts[attempt['id']] = attempt
+    end
+
     def self.exists?(id)
       !@@attempts[id].nil?
     end

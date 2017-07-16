@@ -1,30 +1,30 @@
 require_relative '../service'
 
 class ResolveAttempt
+  class InvalidAttempt < StandardError; end
+  class EvidenceNotStored < StandardError; end
+
   class << self
-    def do(auth_token, attempt_id)
-      auth_token.validate!
+    def do(ticket)
+      key = exchange(ticket)
 
-      key = exchange_attempt(attempt_id)
-
-      check_uploaded!(key)
+      check_uploaded(key)
 
       key
     end
 
     private
 
-    def exchange_attempt(attempt_id)
-      attempt = Attempts::Repository.find(attempt_id)
+    def exchange(ticket)
+      attempt = Attempts::Service.exchange(ticket)
 
-      raise Evidence::InvalidAttempt if attempt.nil?
-      Attempts::Repository.destroy(attempt_id)
+      raise InvalidAttempt if attempt.empty?
 
       attempt['key']
     end
 
-    def check_uploaded!(key)
-      raise Evidence::InvalidAttempt unless Warehouse::Gateway.exists?(key)
+    def check_uploaded(key)
+      raise EvidenceNotStored unless Warehouse::Service.stored?(key)
     end
   end
 end
