@@ -1,36 +1,66 @@
+require_relative '../../config/configurable'
+require_relative '../domain/attempt'
+require_relative '../../infrastructure/redis'
+require 'redis'
+require 'json'
+
 module Attempts
   class Repository
-    class << self
-      @@attempts = {}
+    include Configurable
 
+    configure_with :client
+
+    class << self
       def register(payload)
         attempt = Attempt.for(payload)
 
-        @@attempts[attempt.ticket] = payload
+        client.store(attempt.ticket, payload)
 
         attempt
       end
 
       def exchange(ticket)
-        return NullAttempt.new unless exists?(ticket)
+        return NullAttempt.new unless client.exists?(ticket)
 
-        payload = find(ticket)
-        destroy(ticket)
+        payload = client.find(ticket)
+        client.destroy(ticket)
         Attempt.new(ticket, payload)
       end
 
       private
 
-      def destroy(ticket)
-       @@attempts.delete(ticket)
+      def client
+        configuration.client
+      end
+    end
+  end
+
+  class RedisClient
+    class << self
+      def store(key, payload)
+        redis_client.hset(key, key, JSON.dump(payload))
       end
 
-      def find(ticket)
-        @@attempts[ticket]
+      def destroy(key)
+        redis_client.del(key)
       end
 
-      def exists?(ticket)
-        !@@attempts[ticket].nil?
+      def find(key)
+        payload_json = redis_client.hget(key, key)
+        return unless payload_json
+
+        JSON.parse(payload_json)
+      end
+
+      def exists?(key)
+        stored = find(key)
+        !stored.nil?
+      end
+
+      private
+
+      def redis_client
+        Infrastructure::Redis.client
       end
     end
   end

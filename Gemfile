@@ -3,6 +3,7 @@ ruby '>= 2.4.1'
 
 gem 'sinatra', '~> 2.0.0'
 gem 'aws-sdk', '~> 2.4.0'
+gem 'redis', '~> 3.3.3'
 
 group :development do
   gem 'rerun', '~> 0.11.0'

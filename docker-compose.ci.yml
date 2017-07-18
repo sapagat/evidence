@@ -6,8 +6,14 @@ services:
       service: app
     depends_on:
       - s3
+      - redis
 
   s3:
     extends:
       file: docker-compose.base.yml
       service: s3
+
+  redis:
+    extends:
+      file: docker-compose.base.yml
+      service: redis

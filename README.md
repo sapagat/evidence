@@ -73,6 +73,13 @@ This project is integrated with Travis CI: https://travis-ci.org/sapagat/evidenc
 
 ## Production
 
+## Dependencies
+
+- Amazon S3
+- Redis
+
+**Note** You can check if the dependencies are met by checking the health endpoint: ``GET /health``
+
 ### Environment variables
 
 The following environment variables must be set:
@@ -86,6 +93,10 @@ S3_BUCKET=<bucket-name>
 S3_REGION=<region>
 S3_ACCESS_KEY_ID=<access-key-id>
 S3_SECRET_ACCESS_KEY=<secret-access-key>
+
+REDIS_HOST=<redis-host>
+REDIS_PORT=<redis-port>
+REDIS_TIMEOUT=<redis-timeout>
 ```
 
 ### Procfile

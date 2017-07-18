@@ -9,6 +9,9 @@ services:
       - S3_ACCESS_KEY_ID=an_access_key_id
       - S3_SECRET_ACCESS_KEY=a_secret_access_key
       - S3_ENDPOINT=http://s3:9000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_TIMEOUT=4
     ports:
       - 7000:80
     command:
@@ -22,3 +25,8 @@ services:
     ports:
       - 9000:9000
     command: server /tmp
+
+  redis:
+    image: 'redis:alpine'
+    expose:
+      - '6969'
