@@ -94,8 +94,7 @@ S3_REGION=<region>
 S3_ACCESS_KEY_ID=<access-key-id>
 S3_SECRET_ACCESS_KEY=<secret-access-key>
 
-REDIS_HOST=<redis-host>
-REDIS_PORT=<redis-port>
+REDIS_URL=<redis-url>
 REDIS_TIMEOUT=<redis-timeout>
 ```
 

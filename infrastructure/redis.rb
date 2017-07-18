@@ -5,7 +5,7 @@ module Infrastructure
   class Redis
     include Configurable
 
-    configure_with :host, :port, :timeout
+    configure_with :url, :timeout
 
     def self.client
       @client ||= build_client
@@ -13,8 +13,7 @@ module Infrastructure
 
     def self.build_client
       ::Redis.new(
-        host: configuration.host,
-        port: configuration.port,
+        url: configuration.url,
         timeout: configuration.timeout
       )
     end
