@@ -20,7 +20,7 @@ class EvidenceController < Sinatra::Base
 
       answer_with({
         'key' => key,
-        'attempt_id' => attempt['ticket'],
+        'ticket' => attempt['ticket'],
         'instructions' => attempt['instructions']
       })
 
@@ -30,15 +30,15 @@ class EvidenceController < Sinatra::Base
   end
 
   post '/resolve_attempt' do
-    ticket = @question.attempt_id
+    ticket = @question.ticket
 
     begin
       key = ResolveAttempt.do(ticket)
 
       answer_with({ 'key' => key })
 
-    rescue ResolveAttempt::EvidenceNotStored, ResolveAttempt::InvalidAttempt
-      reply Answer.invalid_attempt
+    rescue ResolveAttempt::EvidenceNotStored, ResolveAttempt::InvalidTicket
+      reply Answer.invalid_ticket
     end
   end
 
@@ -68,8 +68,8 @@ class EvidenceController < Sinatra::Base
       AuthToken.new(@question['auth_token'])
     end
 
-    def attempt_id
-      @question['attempt_id']
+    def ticket
+      @question['ticket']
     end
 
     def key
@@ -102,8 +102,8 @@ class EvidenceController < Sinatra::Base
       error('unauthorized')
     end
 
-    def self.invalid_attempt
-      error('invalid_attempt')
+    def self.invalid_ticket
+      error('invalid_ticket')
     end
 
     def self.invalid_key

@@ -22,7 +22,7 @@ Content-Type: application/json
 
 ### Obtain instructions
 
-Provides an http descriptor for uploading to S3 using a pre-signed request. In addion it provides an ``attempt_id`` that identifies the upload.
+Provides an http descriptor for uploading to S3 using a pre-signed request. In addion it provides a ``ticket`` that identifies the upload.
 
 #### Contract
 
@@ -53,7 +53,7 @@ Content-Type: application/json
 {
     "status": "ok",
     "data": {
-        "attempt_id": "4d6ac229-0def-4a88-882d-66914c3d1e6d",
+        "ticket": "4d6ac229-0def-4a88-882d-66914c3d1e6d",
         "key": "/year/reports.pdf",
         "instructions": {
             "url": "https://s3.a_region.amazonaws.com/a_bucket/test.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=an_access_key_id%2F20170618%2Fa_region%2Fs3%2Faws4_request&X-Amz-Date=20170618T105131Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=58a85acf1be5dfc674230a7f2065c5d64f6f4601a7af4faa769e2a52956a35b6",
@@ -87,7 +87,7 @@ Resolves the evidence upload by checking it is stored in S3 and consumes the att
 
 - Endpoint: ``/resolve_attempt``
 - Method: ``POST``
-- Requires an ``attempt_id`` as well as the ``auth_token``.
+- Requires a ``ticket`` as well as the ``auth_token``.
 
 #### Example
 
@@ -99,7 +99,7 @@ Content-Type: application/json
 
 {
     "auth_token": "de00fcdd-4731-441b-b872-4f1a5d811fe8",
-    "attempt_id": "4d6ac229-0def-4a88-882d-66914c3d1e6d"
+    "ticket": "4d6ac229-0def-4a88-882d-66914c3d1e6d"
 }
 ```
 
@@ -119,7 +119,7 @@ HTTP/1.1 200 OK
 
 #### Invalid attempt error
 
-This error is returned when the the ``attempt_id`` provided is not valid.
+This error is returned when the ``ticket`` provided is not valid or the file is not stored in S3.
 
 ```
 HTTP/1.1 200 OK
@@ -127,7 +127,7 @@ Content-Type: application/json
 
 {
     "status": "error",
-    "error": "invalid_attempt"
+    "error": "invalid_ticket"
 }
 ```
 

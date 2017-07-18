@@ -13,12 +13,12 @@ RSpec.describe 'Instructions' do
     expect_to_be_upload_instructions(instructions)
   end
 
-  it 'identifies the upload attempt' do
+  it 'identifies the upload with a ticket' do
     key = a_key
 
     post('/provide_instructions', auth_message({ 'key' => key }))
 
-    expect(last_data['attempt_id']).to be_a_uuid
+    expect(last_data['ticket']).to be_a_uuid
   end
 
   context 'when the key is not specified' do

@@ -1,7 +1,7 @@
 require_relative '../service'
 
 class ResolveAttempt
-  class InvalidAttempt < StandardError; end
+  class InvalidTicket < StandardError; end
   class EvidenceNotStored < StandardError; end
 
   class << self
@@ -18,7 +18,7 @@ class ResolveAttempt
     def exchange(ticket)
       attempt = Attempts::Service.exchange(ticket)
 
-      raise InvalidAttempt if attempt.empty?
+      raise InvalidTicket if attempt.empty?
 
       attempt['key']
     end

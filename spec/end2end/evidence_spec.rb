@@ -22,12 +22,12 @@ describe 'Evidence' do
     expect_last_response_to_be_ok
     expect(last_status).to eq('ok')
 
-    @attempt_id = last_data['attempt_id']
+    @ticket = last_data['ticket']
     @instructions = last_data['instructions']
   end
 
   def resolve_upload
-    post '/resolve_attempt', auth_message('attempt_id' => @attempt_id)
+    post '/resolve_attempt', auth_message('ticket' => @ticket)
 
     expect_last_response_to_be_ok
     expect(last_status).to eq('ok')
