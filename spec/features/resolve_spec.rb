@@ -5,7 +5,7 @@ require_relative '../../src/service/warehouse'
 RSpec.describe 'Resolve' do
   it 'resolves when the ticket is valid' do
     Stubs::S3Client.say_exists
-    store_attempt({'id' => '1234', 'key' => 'my_key'})
+    store_attempt({'ticket' => '1234', 'key' => 'my_key'})
 
     post '/resolve_attempt', auth_message({ 'ticket' => '1234'})
 
@@ -17,7 +17,7 @@ RSpec.describe 'Resolve' do
   context 'when the file is not stored in warehouse' do
     it 'responds with an error status' do
       Stubs::S3Client.say_does_not_exists
-      store_attempt({'id' => '1234'})
+      store_attempt({'ticket' => '1234'})
 
       post '/resolve_attempt', auth_message({ 'ticket' => '1234'})
 

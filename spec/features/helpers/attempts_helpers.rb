@@ -7,7 +7,7 @@ module Attempts
     end
 
     def self.store(attempt)
-      @@attempts[attempt['id']] = attempt
+      @@attempts[attempt['ticket']] = attempt
     end
 
     def self.exists?(id)

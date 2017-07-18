@@ -21,18 +21,17 @@ module Attempts
 
       private
 
-      def destroy(id)
-       @@attempts.delete(id)
+      def destroy(ticket)
+       @@attempts.delete(ticket)
       end
 
-      def find(id)
-        @@attempts[id]
+      def find(ticket)
+        @@attempts[ticket]
       end
 
       def exists?(ticket)
         !@@attempts[ticket].nil?
       end
-
     end
   end
 end
