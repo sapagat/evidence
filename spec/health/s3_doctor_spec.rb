@@ -1,9 +1,9 @@
-require_relative '../../health/s3_doctor'
+require_relative '../../health/doctors/s3'
 require_relative '../../config/initializers/s3'
 
 RSpec.describe 'S3 Doctor' do
   it 'connects to s3 server' do
-    result = S3Doctor.check
+    result = Doctors::S3.check
 
     expect(result).to eq({'status' => 'ok'})
   end
@@ -15,7 +15,7 @@ RSpec.describe 'S3 Doctor' do
     end
 
     it 'says there is an error' do
-      result = S3Doctor.check
+      result = Doctors::S3.check
 
       expect(result).to eq({'status' => 'error'})
     end

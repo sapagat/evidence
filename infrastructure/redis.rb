@@ -8,7 +8,11 @@ module Infrastructure
     configure_with :host, :port, :timeout
 
     def self.client
-      @client ||= ::Redis.new(
+      @client ||= build_client
+    end
+
+    def self.build_client
+      ::Redis.new(
         host: configuration.host,
         port: configuration.port,
         timeout: configuration.timeout

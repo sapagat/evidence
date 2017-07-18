@@ -1,5 +1,6 @@
 require 'json'
-require_relative 's3_doctor'
+require_relative 'doctors/s3'
+require_relative 'doctors/redis'
 
 module Health
   class Server
@@ -12,7 +13,8 @@ module Health
     def response
       JSON.dump({
         'dependencies' => {
-          's3' => S3Doctor.check
+          's3' => Doctors::S3.check,
+          'redis' => Doctors::Redis.check
         }
       })
     end

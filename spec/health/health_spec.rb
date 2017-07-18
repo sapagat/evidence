@@ -9,10 +9,16 @@ RSpec.describe 'Evidence', :watchdog do
     expect(last_response.code).to eq('200')
   end
 
-  it 'needs s3 to be reachable' do
+  it 'needs S3 to be reachable' do
     get('/health')
 
     expect(dependencies['s3']).to eq({'status' => 'ok'})
+  end
+
+  it 'needs Redis to be reachable' do
+    get('/health')
+
+    expect(dependencies['redis']).to eq({'status' => 'ok'})
   end
 
   def dependencies
