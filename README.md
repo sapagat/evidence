@@ -1,7 +1,4 @@
-# Evidence [WIP]
-
-
-
+# Evidence
 
 Evidence is a service that provides HTTP descriptors for making pre-signed requests and keep track of uploads in progress.
 
